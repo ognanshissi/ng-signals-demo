@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, OnInit, signal } from "@angular/core";
 
 @Component({
     selector: 'counter',
@@ -12,16 +12,18 @@ import { ChangeDetectionStrategy, Component, computed, effect, signal } from "@a
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CounterComponent {
+export class CounterComponent implements OnInit {
 
     count = signal(0);
 
     doubleCount = computed(() => this.count() * 2);
 
-    private t = effect(()=> console.log(`Counter value is ${this.count()}`))
-
     incrementCount() {
         this.count.set(this.count() + 1);
+    }
+
+    ngOnInit(): void {
+        effect(()=> console.log(`Counter value is: ${this.count()}`))
     }
 
 }
